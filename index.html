@@ -243,14 +243,14 @@
                 <div class="input-row">
                     <label for="synergyCrit">치적% 시너지</label>
                     <select id="synergyCrit" onchange="calculate()">
-                        <option value="0">없음</option>
-                        <option value="10" selected>1시너지 (10%)</option>
+                        <option value="0" selected>없음</option>
+                        <option value="10">1시너지 (10%)</option>
                         <option value="20">2시너지 (20%)</option>
                         <option value="30">3시너지 (30%)</option>
                     </select>
                 </div>
                 <div class="checkbox-group">
-                    <input type="checkbox" id="backAttack" checked onchange="calculate()">
+                    <input type="checkbox" id="backAttack" onchange="calculate()">
                     <label for="backAttack">백어택 (10%)</label>
                 </div>
                 <div class="input-row">
@@ -327,19 +327,35 @@
                 <div class="input-row">
                     <label for="tier2Node">2티어 진화 노드</label>
                     <select id="tier2Node" onchange="calculate()">
-                        <option value="0">없음</option>
+                        <option value="0" selected>없음</option>
                         <option value="4">예리한 감각 1Lv (4%)</option>
-                        <option value="8" selected>예리한 감각 2Lv (8%)</option>
+                        <option value="8">예리한 감각 2Lv (8%)</option>
                     </select>
                 </div>
                 <div class="input-row">
                     <label for="tier3Node">3티어 진화 노드</label>
                     <select id="tier3Node" onchange="calculate()">
-                        <option value="0">없음</option>
+                        <option value="0" selected>없음</option>
                         <option value="12">혼신의 강타 1Lv (12%)</option>
-                        <option value="24" selected>혼신의 강타 2Lv (24%)</option>
+                        <option value="24">혼신의 강타 2Lv (24%)</option>
                         <option value="10">일격 1Lv (10%)</option>
                         <option value="20">일격 2Lv (20%)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 아크 그리드 -->
+            <div class="section">
+                <div class="section-title">🌟 아크 그리드</div>
+                <div class="input-row">
+                    <label for="arcGrid">부수는 일격</label>
+                    <select id="arcGrid" onchange="calculate()">
+                        <option value="0">없음</option>
+                        <option value="0.65">14P (0.65%)</option>
+                        <option value="2.6">17P (2.6%)</option>
+                        <option value="0.21">18P (0.21%)</option>
+                        <option value="0.21">19P (0.21%)</option>
+                        <option value="0.21">20P (0.21%)</option>
                     </select>
                 </div>
             </div>
@@ -396,6 +412,9 @@
             // 진화 노드
             totalBuffCrit += parseFloat(document.getElementById('tier2Node').value) || 0;
             totalBuffCrit += parseFloat(document.getElementById('tier3Node').value) || 0;
+
+            // 아크 그리드
+            totalBuffCrit += parseFloat(document.getElementById('arcGrid').value) || 0;
 
             // 필요한 스탯 치명 계산
             let requiredStatCrit = 0;
