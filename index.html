@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>치적 계산기</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .calculator {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .calculator-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+            font-size: 14px;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        input[type="number"] {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            max-width: 150px;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        select {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            max-width: 200px;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            margin-left: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .results {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .result-main {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .result-value {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .result-sub {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .info {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <h1>치적 계산기</h1>
+            <p>정보창 표기 기준으로 입력해주세요</p>
+        </div>
+
+        <div class="calculator">
+            <h2 class="calculator-title">치적 계산기</h2>
+            <p class="subtitle">목표 치명타 확률 달성에 필요한 치명 스탯 계산</p>
+
+            <!-- 목표 치적 설정 -->
+            <div class="section">
+                <div class="section-title">🎯 목표 치적 설정</div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="targetMunga1" onchange="calculate()">
+                    <label for="targetMunga1">뭉가 1Lv (115.42%)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="targetMunga2" onchange="calculate()">
+                    <label for="targetMunga2">뭉가 2Lv (119.28%)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="targetInputa" onchange="calculate()">
+                    <label for="targetInputa">입타 (100.00%)</label>
+                </div>
+            </div>
+
+            <!-- 기본 버프 -->
+            <div class="section">
+                <div class="section-title">💪 기본 버프</div>
+                <div class="input-row">
+                    <label for="jobCrit">직업 각인 치적%</label>
+                    <input type="number" id="jobCrit" value="12" min="0" step="0.1" onchange="calculate()">
+                    <span>%</span>
+                </div>
+                <div class="input-row">
+                    <label for="skillCrit">스킬 치적% 트포</label>
+                    <input type="number" id="skillCrit" value="0" min="0" step="0.1" onchange="calculate()">
+                    <span>%</span>
+                </div>
+                <div class="input-row">
+                    <label for="synergyCrit">치적% 시너지</label>
+                    <select id="synergyCrit" onchange="calculate()">
+                        <option value="0">없음</option>
+                        <option value="10" selected>1시너지 (10%)</option>
+                        <option value="20">2시너지 (20%)</option>
+                        <option value="30">3시너지 (30%)</option>
+                    </select>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="backAttack" checked onchange="calculate()">
+                    <label for="backAttack">백어택 (10%)</label>
+                </div>
+                <div class="input-row">
+                    <label for="braceletCrit">팔찌 치적% (스탯 기입X)</label>
+                    <input type="number" id="braceletCrit" value="0" min="0" step="0.1" onchange="calculate()">
+                    <span>%</span>
+                </div>
+            </div>
+
+            <!-- 각인 및 장비 -->
+            <div class="section">
+                <div class="section-title">📿 각인 및 장비</div>
+                <div class="grid-2">
+                    <div class="input-row">
+                        <label for="ring1">반지 연마 1</label>
+                        <select id="ring1" onchange="calculate()">
+                            <option value="0">없음</option>
+                            <option value="1.55">상 (1.55%)</option>
+                            <option value="0.95">중 (0.95%)</option>
+                            <option value="0.4">하 (0.4%)</option>
+                        </select>
+                    </div>
+                    <div class="input-row">
+                        <label for="ring2">반지 연마 2</label>
+                        <select id="ring2" onchange="calculate()">
+                            <option value="0">없음</option>
+                            <option value="1.55">상 (1.55%)</option>
+                            <option value="0.95">중 (0.95%)</option>
+                            <option value="0.4">하 (0.4%)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <label for="weakPoint">약점 노출% (서폿)</label>
+                    <input type="number" id="weakPoint" value="0" min="0" step="0.1" onchange="calculate()">
+                    <span>%</span>
+                </div>
+            </div>
+
+            <!-- 각인 -->
+            <div class="section">
+                <div class="section-title">✨ 각인 및 엘릭서</div>
+                <div class="input-row">
+                    <label for="adrenaline">아드레날린 각인서</label>
+                    <select id="adrenaline" onchange="calculate()">
+                        <option value="0">없음</option>
+                        <option value="14">전설 (14%)</option>
+                        <option value="15.5">유물 1칸 (15.5%)</option>
+                        <option value="17">유물 2칸 (17%)</option>
+                        <option value="18.5">유물 3칸 (18.5%)</option>
+                        <option value="20">유물 4칸 (20%)</option>
+                    </select>
+                </div>
+                <div class="input-row">
+                    <label for="precision">정밀 단도 각인서</label>
+                    <select id="precision" onchange="calculate()">
+                        <option value="0">없음</option>
+                        <option value="18">전설 (18%)</option>
+                        <option value="18.75">유물 1칸 (18.75%)</option>
+                        <option value="19.5">유물 2칸 (19.5%)</option>
+                        <option value="20.25">유물 3칸 (20.25%)</option>
+                        <option value="21">유물 4칸 (21%)</option>
+                    </select>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="masterElixir" onchange="calculate()">
+                    <label for="masterElixir">달인 엘릭서 (7%)</label>
+                </div>
+            </div>
+
+            <!-- 진화 노드 -->
+            <div class="section">
+                <div class="section-title">🌟 진화 노드</div>
+                <div class="input-row">
+                    <label for="tier2Node">2티어 진화 노드</label>
+                    <select id="tier2Node" onchange="calculate()">
+                        <option value="0">없음</option>
+                        <option value="4">예리한 감각 1Lv (4%)</option>
+                        <option value="8" selected>예리한 감각 2Lv (8%)</option>
+                    </select>
+                </div>
+                <div class="input-row">
+                    <label for="tier3Node">3티어 진화 노드</label>
+                    <select id="tier3Node" onchange="calculate()">
+                        <option value="0">없음</option>
+                        <option value="12">혼신의 강타 1Lv (12%)</option>
+                        <option value="24" selected>혼신의 강타 2Lv (24%)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 결과 -->
+            <div class="results">
+                <div class="result-main">목표 달성을 위한 적정 치명 스탯</div>
+                <div class="result-value" id="requiredCrit">1,046</div>
+                <div class="result-sub" id="currentRate">현재 치명타 확률: 78.00%</div>
+            </div>
+
+            <div class="info" style="margin-top: 20px;">
+                <strong>📌 사용 방법</strong><br>
+                • 목표 치적(뭉가/입타)을 선택하면 필요한 치명 스탯이 자동 계산됩니다<br>
+                • 치명 1당 = 0.0379% 치명타 확률<br>
+                • 백어택 직업은 백어택 체크
+            </div> 
+        </div>
+    </div>
+
+    <script>
+        // 치적 계산기
+        function calculate() {
+            // 목표 치적 확인
+            let targetCritRate = 0;
+            if (document.getElementById('targetMunga1').checked) {
+                targetCritRate = 115.42;
+            } else if (document.getElementById('targetMunga2').checked) {
+                targetCritRate = 119.28;
+            } else if (document.getElementById('targetInputa').checked) {
+                targetCritRate = 100.00;
+            }
+
+            // 버프 합산
+            let totalBuffCrit = 0;
+            
+            // 기본 버프
+            totalBuffCrit += parseFloat(document.getElementById('jobCrit').value) || 0;
+            totalBuffCrit += parseFloat(document.getElementById('skillCrit').value) || 0;
+            totalBuffCrit += parseFloat(document.getElementById('synergyCrit').value) || 0;
+            totalBuffCrit += document.getElementById('backAttack').checked ? 10 : 0;
+            totalBuffCrit += parseFloat(document.getElementById('braceletCrit').value) || 0;
+
+            // 장비
+            totalBuffCrit += parseFloat(document.getElementById('ring1').value) || 0;
+            totalBuffCrit += parseFloat(document.getElementById('ring2').value) || 0;
+            totalBuffCrit += parseFloat(document.getElementById('weakPoint').value) || 0;
+
+            // 각인
+            totalBuffCrit += parseFloat(document.getElementById('adrenaline').value) || 0;
+            totalBuffCrit += parseFloat(document.getElementById('precision').value) || 0;
+            totalBuffCrit += document.getElementById('masterElixir').checked ? 7 : 0;
+
+            // 진화 노드
+            totalBuffCrit += parseFloat(document.getElementById('tier2Node').value) || 0;
+            totalBuffCrit += parseFloat(document.getElementById('tier3Node').value) || 0;
+
+            // 필요한 스탯 치명 계산
+            let requiredStatCrit = 0;
+            if (targetCritRate > 0) {
+                requiredStatCrit = Math.ceil((targetCritRate - totalBuffCrit) / 0.0379);
+                if (requiredStatCrit < 0) requiredStatCrit = 0;
+            }
+
+            // 현재 치명타 확률
+            const currentCritRate = totalBuffCrit + (requiredStatCrit * 0.0379);
+
+            // 결과 표시
+            document.getElementById('requiredCrit').textContent = requiredStatCrit.toLocaleString();
+            document.getElementById('currentRate').textContent = 
+                `현재 치명타 확률: ${currentCritRate.toFixed(2)}% (버프: ${totalBuffCrit.toFixed(2)}% + 스탯: ${(requiredStatCrit * 0.0379).toFixed(2)}%)`;
+        }
+
+        // 초기 계산
+        calculate();
+    </script>
+</body>
+</html>
+    </script>
+</body>
+</html>
