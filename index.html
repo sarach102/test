@@ -223,6 +223,11 @@
                     <input type="checkbox" id="targetInputa" onchange="calculate()">
                     <label for="targetInputa">입타 (100.00%)</label>
                 </div>
+                <div class="input-row">
+                    <label for="customTarget">자유 치적</label>
+                    <input type="number" id="customTarget" value="0" min="0" step="0.01" onchange="calculate()" placeholder="원하는 치적% 입력">
+                    <span>%</span>
+                </div>
             </div>
 
             <!-- 기본 버프 -->
@@ -379,7 +384,12 @@
         function calculate() {
             // 목표 치적 확인
             let targetCritRate = 0;
-            if (document.getElementById('targetMunga1').checked) {
+            const customTarget = parseFloat(document.getElementById('customTarget').value) || 0;
+            
+            if (customTarget > 0) {
+                // 자유 치적이 입력되어 있으면 우선
+                targetCritRate = customTarget;
+            } else if (document.getElementById('targetMunga1').checked) {
                 targetCritRate = 115.42;
             } else if (document.getElementById('targetMunga2').checked) {
                 targetCritRate = 119.28;
@@ -438,5 +448,3 @@
     </script>
 </body>
 </html>
-
-
