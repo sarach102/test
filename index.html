@@ -223,10 +223,15 @@
                     <input type="checkbox" id="targetInputa" onchange="calculate()">
                     <label for="targetInputa">입타 (100.00%)</label>
                 </div>
-                <div class="input-row">
-                    <label for="customTarget">자유 치적</label>
-                    <input type="number" id="customTarget" value="0" min="0" step="0.01" onchange="calculate()" placeholder="원하는 치적% 입력">
-                    <span>%</span>
+                <div class="checkbox-group" style="justify-content: space-between; margin-bottom: 0; margin-top: -10px;">
+                    <div style="display: flex; align-items: center;">
+                        <input type="checkbox" id="useCustomTarget" onchange="calculate()">
+                        <label for="useCustomTarget" style="margin-left: 8px; margin-bottom: 0;">자유 치적</label>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <input type="number" id="customTarget" value="0" min="0" step="0.01" onchange="calculate()" placeholder="원하는 치적% 입력" style="width: 150px;">
+                        <span>%</span>
+                    </div>
                 </div>
             </div>
 
@@ -384,10 +389,11 @@
         function calculate() {
             // 목표 치적 확인
             let targetCritRate = 0;
+            const useCustom = document.getElementById('useCustomTarget') ? document.getElementById('useCustomTarget').checked : false;
             const customTarget = parseFloat(document.getElementById('customTarget').value) || 0;
-            
-            if (customTarget > 0) {
-                // 자유 치적이 입력되어 있으면 우선
+
+            if (useCustom && customTarget > 0) {
+                // 사용자 지정 치적이 사용 설정되어 있으면 우선 적용
                 targetCritRate = customTarget;
             } else if (document.getElementById('targetMunga1').checked) {
                 targetCritRate = 115.42;
